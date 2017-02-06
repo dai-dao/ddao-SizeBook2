@@ -14,6 +14,9 @@ import static com.example.ddao_sizebook.db.ShopperInformation.ShopperEntry.Waist
  * Created by ddao on 2/5/17.
  */
 
+/**
+ * Class to contain information to pass to ShopperAdapter class, in order to be displayed on the list View
+ */
 public class Shopper {
 
     private String Name;
