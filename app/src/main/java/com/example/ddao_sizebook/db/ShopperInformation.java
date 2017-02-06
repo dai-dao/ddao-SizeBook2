@@ -6,6 +6,11 @@ import android.provider.BaseColumns;
  * Created by ddao on 2/5/17.
  */
 
+/*
+ * Adapted the idea from this site: 
+ * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+ * Class to contain general information about the database
+ */
 public class ShopperInformation {
 
     public static final String DB_NAME = "com.example.ddao_sizebook.shopper_db";
