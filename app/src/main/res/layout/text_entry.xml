@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/shopperName"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Name"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperDate"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Date (yyyy-mm-dd)"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperNeck"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Neck"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperBust"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Bust"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperChest"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Chest"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperWaist"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Waist"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperHip"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Hip"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperInseam"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Inseam"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/shopperComment"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Comment"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+</LinearLayout>
