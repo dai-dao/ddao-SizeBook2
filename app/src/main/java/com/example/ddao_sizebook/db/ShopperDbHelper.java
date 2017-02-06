@@ -10,6 +10,11 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  * Created by ddao on 2/5/17.
  */
 
+/**
+ * Adapted the idea from this Site:
+ * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+ * Class to create database and manage database table 
+ */
 public class ShopperDbHelper extends SQLiteOpenHelper {
 
     public ShopperDbHelper(Context context) {
