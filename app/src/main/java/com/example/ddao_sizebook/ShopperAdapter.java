@@ -13,6 +13,11 @@ import java.util.ArrayList;
  * Created by ddao on 2/5/17.
  */
 
+/**
+ * Adapted the idea from this site: 
+ * http://geekswithblogs.net/bosuch/archive/2011/01/31/android---create-a-custom-multi-line-listview-bound-to-an.aspx
+ * A custom Adapter class to display the Shopper Information on the ListView
+ */
 public class ShopperAdapter extends BaseAdapter {
     private static ArrayList<Shopper> shopperArrayList;
 
