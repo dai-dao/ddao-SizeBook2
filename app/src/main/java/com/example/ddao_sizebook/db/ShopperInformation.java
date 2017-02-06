@@ -10,6 +10,7 @@ import android.provider.BaseColumns;
  * Adapted the idea from this site: 
  * https://www.sitepoint.com/starting-android-development-creating-todo-app/
  * Class to contain general information about the database
+ * Use of constant to reduce typing error of name fields when trying to query database
  */
 public class ShopperInformation {
 
