@@ -17,6 +17,8 @@ import java.util.ArrayList;
  * Adapted the idea from this site: 
  * http://geekswithblogs.net/bosuch/archive/2011/01/31/android---create-a-custom-multi-line-listview-bound-to-an.aspx
  * A custom Adapter class to display the Shopper Information on the ListView
+ * We need a custom Adapter because we need to show some extra fields of information on the list view, on top of just the name
+ * Need to extend BaseAdapter, in order to be passed as argument to a View.
  */
 public class ShopperAdapter extends BaseAdapter {
     private static ArrayList<Shopper> shopperArrayList;
