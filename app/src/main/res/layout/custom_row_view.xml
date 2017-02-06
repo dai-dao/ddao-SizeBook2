@@ -25,11 +25,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/shopper_delete"
-        android:onClick="deleteShopper"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove" />
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/shopper_delete"
+            android:onClick="deleteShopper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Remove" />
+
+        <Button
+            android:id="@+id/shopper_edit"
+            android:onClick="editShopper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Edit" />
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -18,12 +18,12 @@ public class Shopper {
 
     private String Name;
     private String Date;
-    private int Neck;
-    private int Bust;
-    private int Chest;
-    private int Waist;
-    private int Hip;
-    private int Inseam;
+    private String Neck;
+    private String Bust;
+    private String Chest;
+    private String Waist;
+    private String Hip;
+    private String Inseam;
     private String Comment;
 
     public String getName() {
@@ -42,51 +42,51 @@ public class Shopper {
         Date = date;
     }
 
-    public int getNeck() {
+    public String getNeck() {
         return Neck;
     }
 
-    public void setNeck(int neck) {
+    public void setNeck(String neck) {
         Neck = neck;
     }
 
-    public int getBust() {
+    public String getBust() {
         return Bust;
     }
 
-    public void setBust(int bust) {
+    public void setBust(String bust) {
         Bust = bust;
     }
 
-    public int getChest() {
+    public String getChest() {
         return Chest;
     }
 
-    public void setChest(int chest) {
+    public void setChest(String chest) {
         Chest = chest;
     }
 
-    public int getWaist() {
+    public String getWaist() {
         return Waist;
     }
 
-    public void setWaist(int waist) {
+    public void setWaist(String waist) {
         Waist = waist;
     }
 
-    public int getHip() {
+    public String getHip() {
         return Hip;
     }
 
-    public void setHip(int hip) {
+    public void setHip(String hip) {
         Hip = hip;
     }
 
-    public int getInseam() {
+    public String getInseam() {
         return Inseam;
     }
 
-    public void setInseam(int inseam) {
+    public void setInseam(String inseam) {
         Inseam = inseam;
     }
 

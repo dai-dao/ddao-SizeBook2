@@ -8,9 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,20 +19,14 @@ import android.widget.TextView;
 
 import com.example.ddao_sizebook.db.ShopperDbHelper;
 import com.example.ddao_sizebook.db.ShopperInformation;
-import com.example.ddao_sizebook.db.TaskContract;
-import com.example.ddao_sizebook.db.TaskDbHelper;
 
-import java.sql.Date;
 import java.util.ArrayList;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private ShopperDbHelper mHelper;
-    private ListView mTaskListView;
+    private ListView mShopperListView;
     private ArrayAdapter<String> mAdapter;
     private ShopperAdapter sAdapter;
 
@@ -43,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTaskListView = (ListView) findViewById(R.id.list_todo);
-        mTaskListView.setAdapter(sAdapter);
+        mShopperListView = (ListView) findViewById(R.id.list_todo);
+        mShopperListView.setAdapter(sAdapter);
         mHelper = new ShopperDbHelper(this);
 
         updateUI();
@@ -56,10 +47,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private ArrayList<Shopper> GetShopperData(){
+    private ArrayList<Shopper> GetShopperData(String shopperName){
         ArrayList<Shopper> results = new ArrayList<Shopper>();
 
+        String querySelection;
+        String[] queryArgs;
+
+        if (shopperName == null) {
+            querySelection = null;
+            queryArgs = null;
+        } else {
+            querySelection = ShopperInformation.ShopperEntry.Name + " = ?";
+            queryArgs = new String[]{shopperName};
+        }
+
         SQLiteDatabase db = mHelper.getReadableDatabase();
+
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + ShopperInformation.ShopperEntry.TABLE + " WHERE name = ?", queryArgs);
+
         Cursor cursor =db.query(ShopperInformation.ShopperEntry.TABLE,
                 new String[]{   ShopperInformation.ShopperEntry._ID,
                                 ShopperInformation.ShopperEntry.Name,
@@ -71,13 +76,11 @@ public class MainActivity extends AppCompatActivity {
                                 ShopperInformation.ShopperEntry.Waist,
                                 ShopperInformation.ShopperEntry.Comment
                 },
-                null, null, null, null, null);
+                querySelection, queryArgs, null, null, null);
 
         Shopper shopper;
         while (cursor.moveToNext()) {
-
             shopper = new Shopper();
-
             int idx_name = cursor.getColumnIndex(ShopperInformation.ShopperEntry.Name);
             int idx_date = cursor.getColumnIndex(ShopperInformation.ShopperEntry.Date);
             int idx_bust = cursor.getColumnIndex(ShopperInformation.ShopperEntry.Bust);
@@ -89,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
             shopper.setName(cursor.getString(idx_name));
             shopper.setDate(cursor.getString(idx_date));
-            shopper.setBust(Integer.parseInt(cursor.getString(idx_bust)));
-            shopper.setChest(Integer.parseInt(cursor.getString(idx_chest)));
-            shopper.setHip(Integer.parseInt(cursor.getString(idx_hip)));
-            shopper.setInseam(Integer.parseInt(cursor.getString(idx_inseam)));
-            shopper.setWaist(Integer.parseInt(cursor.getString(idx_waist)));
+            shopper.setBust(cursor.getString(idx_bust));
+            shopper.setChest(cursor.getString(idx_chest));
+            shopper.setHip(cursor.getString(idx_hip));
+            shopper.setInseam(cursor.getString(idx_inseam));
+            shopper.setWaist(cursor.getString(idx_waist));
             shopper.setComment(cursor.getString(idx_comment));
 
             results.add(shopper);
@@ -108,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_task:
-                createEntryDialog();
+            case R.id.action_add_shopper:
+                createEntryDialog(null);
                 return true;
 
             default:
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void createEntryDialog(){
+    private void createEntryDialog(Shopper existingShopper){
         /* Add multiple text field in add box */
         /* http://stackoverflow.com/questions/12876624/multiple-edittext-objects-in-alertdialog */
         //text_entry is an Layout XML file containing two text field to display in alert dialog
@@ -126,56 +129,109 @@ public class MainActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final EditText shopperNameView = new EditText(this);
-        shopperNameView.setInputType(InputType.TYPE_CLASS_TEXT);
-        shopperNameView.setHint("Name");
-        layout.addView(shopperNameView);
-
         final EditText shopperDateView = new EditText(this);
-        shopperDateView.setInputType(InputType.TYPE_CLASS_TEXT);
-        shopperDateView.setHint("Date (mm-dd-yyyy)");
-        layout.addView(shopperDateView);
-
         final EditText shopperNeckView = new EditText(this);
-        shopperNeckView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperNeckView .setHint("Neck");
-        layout.addView(shopperNeckView);
-
         final EditText shopperBustView = new EditText(this);
-        shopperBustView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperBustView.setHint("Bust");
-        layout.addView(shopperBustView );
-
         final EditText shopperChestView = new EditText(this);
-        shopperChestView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperChestView.setHint("Chest");
-        layout.addView(shopperChestView);
-
         final EditText shopperWaistView = new EditText(this);
-        shopperWaistView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperWaistView.setHint("Waist");
-        layout.addView(shopperWaistView);
-
         final EditText shopperHipView = new EditText(this);
-        shopperHipView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperHipView.setHint("Hip");
-        layout.addView(shopperHipView);
-
         final EditText shopperInseamView  = new EditText(this);
-        shopperInseamView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        shopperInseamView.setHint("Inseam");
-        layout.addView(shopperInseamView);
-
         final EditText shopperCommentView  = new EditText(this);
+
+        shopperNameView.setInputType(InputType.TYPE_CLASS_TEXT);
+        shopperDateView.setInputType(InputType.TYPE_CLASS_TEXT);
+        shopperNeckView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        shopperBustView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        shopperChestView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        shopperWaistView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        shopperHipView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        shopperInseamView.setInputType(InputType.TYPE_CLASS_NUMBER);
         shopperCommentView.setInputType(InputType.TYPE_CLASS_TEXT);
-        shopperCommentView.setHint("Comment");
-        layout.addView(shopperCommentView);
+
+        LinearLayout NameLayout = new LinearLayout(this);
+        LinearLayout DateLayout = new LinearLayout(this);
+        LinearLayout NeckLayout = new LinearLayout(this);
+        LinearLayout BustLayout = new LinearLayout(this);
+        LinearLayout ChestLayout = new LinearLayout(this);
+        LinearLayout WaistLayout = new LinearLayout(this);
+        LinearLayout HipLayout = new LinearLayout(this);
+        LinearLayout InseamLayout = new LinearLayout(this);
+        LinearLayout CommentLayout = new LinearLayout(this);
+
+        final TextView NameLabel = new TextView(this);
+        final TextView DateLabel = new TextView(this);
+        final TextView NeckLabel = new TextView(this);
+        final TextView BustLabel = new TextView(this);
+        final TextView ChestLabel = new TextView(this);
+        final TextView WaistLabel = new TextView(this);
+        final TextView HipLabel = new TextView(this);
+        final TextView InseamLabel = new TextView(this);
+        final TextView CommentLabel = new TextView(this);
+
+        String action = "Add";
+        if (existingShopper != null) {
+            shopperNameView.setText(existingShopper.getName());
+            shopperDateView.setText(existingShopper.getDate());
+            shopperNeckView.setText(String.valueOf(existingShopper.getNeck()));
+            shopperBustView.setText(String.valueOf(existingShopper.getBust()));
+            shopperChestView.setText(String.valueOf(existingShopper.getChest()));
+            shopperWaistView.setText(String.valueOf(existingShopper.getWaist()));
+            shopperHipView.setText(String.valueOf(existingShopper.getHip()));
+            shopperInseamView.setText(String.valueOf(existingShopper.getInseam()));
+            shopperCommentView.setText(existingShopper.getComment());
+            action = "Edit";
+        }
+
+        NameLabel.setText("Name: ");
+        NameLayout.addView(NameLabel);
+        NameLayout.addView(shopperNameView);
+
+        DateLabel.setText("Date (mm-dd-yyyy): ");
+        DateLayout.addView(DateLabel);
+        DateLayout.addView(shopperDateView);
+
+        NeckLabel.setText("Neck: ");
+        NeckLayout.addView(NeckLabel);
+        NeckLayout.addView(shopperNeckView);
+
+        BustLabel.setText("Bust: ");
+        BustLayout.addView(BustLabel);
+        BustLayout.addView(shopperBustView);
+
+        ChestLabel.setText("Chest: ");
+        ChestLayout.addView(ChestLabel);
+        ChestLayout.addView(shopperChestView);
+
+        WaistLabel.setText("Waist: ");
+        WaistLayout.addView(WaistLabel);
+        WaistLayout.addView(shopperWaistView);
+
+        HipLabel.setText("Hip: ");
+        HipLayout.addView(HipLabel);
+        HipLayout.addView(shopperHipView);
+
+        InseamLabel.setText("Inseam: ");
+        InseamLayout.addView(InseamLabel);
+        InseamLayout.addView(shopperInseamView);
+
+        CommentLabel.setText("Comment: ");
+        CommentLayout.addView(CommentLabel);
+        CommentLayout.addView(shopperCommentView);
+
+        layout.addView(NameLayout);
+        //layout.addView(shopperNameView);
+        layout.addView(DateLayout);
+        layout.addView(NeckLayout);
+        layout.addView(BustLayout);
+        layout.addView(ChestLayout);
+        layout.addView(WaistLayout);
+        layout.addView(HipLayout);
+        layout.addView(InseamLayout);
+        layout.addView(CommentLayout);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Add a new Shopper")
-                .setMessage("What do you want to do next?")
-                // .setView(taskEditText)
                 .setView(layout)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton(action, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Put value into database
@@ -184,12 +240,12 @@ public class MainActivity extends AppCompatActivity {
 
                         values.put(ShopperInformation.ShopperEntry.Name, String.valueOf(shopperNameView.getText()));
                         values.put(ShopperInformation.ShopperEntry.Date, String.valueOf(shopperDateView.getText()));
-                        values.put(ShopperInformation.ShopperEntry.Neck, Integer.valueOf(shopperNeckView.getText().toString()));
-                        values.put(ShopperInformation.ShopperEntry.Bust, Integer.valueOf(shopperBustView.getText().toString()));
-                        values.put(ShopperInformation.ShopperEntry.Chest, Integer.valueOf(shopperChestView.getText().toString()));
-                        values.put(ShopperInformation.ShopperEntry.Waist, Integer.valueOf(shopperWaistView.getText().toString()));
-                        values.put(ShopperInformation.ShopperEntry.Hip, Integer.valueOf(shopperHipView.getText().toString()));
-                        values.put(ShopperInformation.ShopperEntry.Inseam, Integer.valueOf(shopperInseamView.getText().toString()));
+                        values.put(ShopperInformation.ShopperEntry.Neck, shopperNeckView.getText().toString());
+                        values.put(ShopperInformation.ShopperEntry.Bust, shopperBustView.getText().toString());
+                        values.put(ShopperInformation.ShopperEntry.Chest, shopperChestView.getText().toString());
+                        values.put(ShopperInformation.ShopperEntry.Waist, shopperWaistView.getText().toString());
+                        values.put(ShopperInformation.ShopperEntry.Hip, shopperHipView.getText().toString());
+                        values.put(ShopperInformation.ShopperEntry.Inseam, shopperInseamView.getText().toString());
                         values.put(ShopperInformation.ShopperEntry.Comment, shopperCommentView.getText().toString());
 
                         db.insertWithOnConflict(ShopperInformation.ShopperEntry.TABLE,
@@ -205,22 +261,47 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void editShopper(View view) {
+        View parent = (View) view.getParent().getParent();
+        TextView shopperTextView = (TextView) parent.findViewById(R.id.rowName);
+        String shopperName = String.valueOf(shopperTextView.getText());
+        shopperName = shopperName.split(":")[1].trim();
+
+        // Fetch from database this shopper
+        ArrayList<Shopper> editedShopper = GetShopperData(shopperName);
+        Shopper existingShopper = editedShopper.get(0);
+
+        // Delete from database
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.delete(ShopperInformation.ShopperEntry.TABLE,
+                ShopperInformation.ShopperEntry.Name + " = ?",
+                new String[]{shopperName});
+        db.close();
+
+        // Add to database edited information
+        createEntryDialog(existingShopper);
+    }
+
     private void updateUI() {
-        ArrayList<Shopper> Shoppers = GetShopperData();
+        ArrayList<Shopper> Shoppers = GetShopperData(null);
 
         if (sAdapter == null) {
             sAdapter = new ShopperAdapter(this, Shoppers);
-            mTaskListView.setAdapter(sAdapter);
+            mShopperListView.setAdapter(sAdapter);
         } else {
             sAdapter.clear();
             sAdapter.addAll(Shoppers);
             sAdapter.notifyDataSetChanged();
         }
+
+        // Set number of records in the view
+        TextView num_record = (TextView) this.findViewById(R.id.num_record);
+        num_record.setText(String.valueOf(Shoppers.size()));
     }
 
     // Need to re-write delete
     public void deleteShopper(View view) {
-        View parent = (View) view.getParent();
+        View parent = (View) view.getParent().getParent();
         TextView shopperTextView = (TextView) parent.findViewById(R.id.rowName);
         String shopperName = String.valueOf(shopperTextView.getText());
         shopperName = shopperName.split(":")[1].trim();

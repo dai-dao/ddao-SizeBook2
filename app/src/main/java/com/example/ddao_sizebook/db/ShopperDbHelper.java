@@ -22,12 +22,12 @@ public class ShopperDbHelper extends SQLiteOpenHelper {
                 ShopperInformation.ShopperEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ShopperInformation.ShopperEntry.Name+ " TEXT NOT NULL, " +
                 ShopperInformation.ShopperEntry.Date+ " TEXT, " +
-                ShopperInformation.ShopperEntry.Neck+ " INT, " +
-                ShopperInformation.ShopperEntry.Bust + " INT, " +
-                ShopperInformation.ShopperEntry.Chest+ " INT, " +
-                ShopperInformation.ShopperEntry.Waist+ " INT, " +
-                ShopperInformation.ShopperEntry.Hip  + " INT, " +
-                ShopperInformation.ShopperEntry.Inseam+ " INT, " +
+                ShopperInformation.ShopperEntry.Neck+ " TEXT, " +
+                ShopperInformation.ShopperEntry.Bust + " TEXT, " +
+                ShopperInformation.ShopperEntry.Chest+ " TEXT, " +
+                ShopperInformation.ShopperEntry.Waist+ " TEXT, " +
+                ShopperInformation.ShopperEntry.Hip  + " TEXT, " +
+                ShopperInformation.ShopperEntry.Inseam+ " TEXT, " +
                 ShopperInformation.ShopperEntry.Comment+ " TEXT);";
 
         db.execSQL(createTable);
