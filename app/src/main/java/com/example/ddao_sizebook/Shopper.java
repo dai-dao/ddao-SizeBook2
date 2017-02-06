@@ -16,6 +16,7 @@ import static com.example.ddao_sizebook.db.ShopperInformation.ShopperEntry.Waist
 
 /**
  * Class to contain information to pass to ShopperAdapter class, in order to be displayed on the list View
+ * Only contain getters and setters, its purpose is just to pass information to the Adapter
  */
 public class Shopper {
 
