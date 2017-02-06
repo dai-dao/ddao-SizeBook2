@@ -22,6 +22,11 @@ import com.example.ddao_sizebook.db.ShopperInformation;
 
 import java.util.ArrayList;
 
+
+/**
+ * Adapted the idea from this site:
+ * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
