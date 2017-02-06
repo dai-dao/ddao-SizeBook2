@@ -14,6 +14,8 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  * Adapted the idea from this Site:
  * https://www.sitepoint.com/starting-android-development-creating-todo-app/
  * Class to create database and manage database table 
+ * Need to extend SQLiteOpenHelper, we need a custom database handler to help create the database
+ * and query
  */
 public class ShopperDbHelper extends SQLiteOpenHelper {
 
